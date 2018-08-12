@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.linuxprobe.demo.mapper.OrgMapper">
+	<resultMap id="BaseResultMap" type="org.linuxprobe.demo.model.Org">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+	</resultMap>
+	<select id="select"
+		parameterType="org.linuxprobe.demo.query.OrgQuery"
+		resultMap="BaseResultMap">
+		${sqlr.toSelectSql()}
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+			o.*
+		from org as o
+		where o.id = #{id,jdbcType=VARCHAR}
+	</select>
+</mapper>
