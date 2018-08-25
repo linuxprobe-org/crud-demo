@@ -3,6 +3,7 @@ package org.linuxprobe.demo;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linuxprobe.crud.core.query.BaseQuery.Limit;
@@ -10,6 +11,7 @@ import org.linuxprobe.crud.core.query.param.QueryParam.Operator;
 import org.linuxprobe.crud.core.query.param.impl.NumberParam;
 import org.linuxprobe.crud.core.query.param.impl.StringParam;
 import org.linuxprobe.crud.service.UniversalService;
+import org.linuxprobe.demo.model.Org;
 import org.linuxprobe.demo.model.User;
 import org.linuxprobe.demo.query.OrgQuery;
 import org.linuxprobe.demo.query.RoleQuery;
@@ -66,7 +68,7 @@ public class ApplicationTests {
 		service.globalUpdate(user);
 		System.out.println("更新用户:" + user);
 	}
-	
+
 	/** 字段选择更新测试 */
 	@Test
 	public void localUpdateTest() {
@@ -100,7 +102,8 @@ public class ApplicationTests {
 		users.add(user2);
 		service.batchRemove(users);
 		/** 也可使用以下接口删除数据 */
-		//service.batchRemoveByPrimaryKey(new LinkedList<String>(), User.class);
+		// service.batchRemoveByPrimaryKey(new LinkedList<String>(),
+		// User.class);
 	}
 
 	/** 使用setValue进行where条件是单值的查询例如=,!=,kike ,is null */
@@ -185,6 +188,26 @@ public class ApplicationTests {
 		List<User> users = service.universalSelect(query, User.class);
 		for (User user : users) {
 			System.out.println(user);
+		}
+	}
+
+	/** sql查询 */
+	@Test
+	public void sqlSelectTest() {
+		List<Map<String, Object>> result = service
+				.selectBySql("select distinct o.* from org o left join user u on o.id = u.org_id order by o.id");
+		for (Map<String, Object> temp : result) {
+			System.out.println(temp);
+		}
+	}
+
+	/** sql查询 */
+	@Test
+	public void sqlSelectTypeTest() {
+		List<Org> result = service.selectBySql(
+				"select distinct o.* from org o left join user u on o.id = u.org_id order by o.id", Org.class);
+		for (Org temp : result) {
+			System.out.println(temp.toString());
 		}
 	}
 }
