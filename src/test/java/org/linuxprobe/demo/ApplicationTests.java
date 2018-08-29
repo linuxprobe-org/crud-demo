@@ -95,10 +95,10 @@ public class ApplicationTests {
 	public void batchDeleteTest() {
 		LinkedList<User> users = new LinkedList<>();
 		User user1 = new User();
-		user1.setId("cd4b5c4e-a517-4c28-afea-bd1b4f3577e1");
+		user1.setId("1af38ad5-52ff-4488-92d7-884ff66831f7");
 		users.add(user1);
 		User user2 = new User();
-		user2.setId("ceedb8cf-f30c-4da3-b594-ee6d077e8826");
+		user2.setId("375b11a3-9e6c-4efd-9c59-f9f74b799b44");
 		users.add(user2);
 		service.batchRemove(users);
 		/** 也可使用以下接口删除数据 */
