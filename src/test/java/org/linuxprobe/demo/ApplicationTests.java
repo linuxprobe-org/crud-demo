@@ -72,18 +72,22 @@ public class ApplicationTests {
 	/** 字段选择更新测试 */
 	@Test
 	public void localUpdateTest() {
-		User user = new User();
-		user.setId("e4f8e18b-a473-43f9-a544-890de7f3b424");
-		user.setAge(50);
-		service.localUpdate(user);
-		System.out.println("更新用户:" + user);
+		try {
+			User user = new User();
+			user.setId("e4f8e18b-a473-43f9-a544-890de7f3b424");
+			user.setAge(50);
+			service.localUpdate(user);
+			System.out.println("更新用户:" + user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/** 删除测试 */
 	@Test
 	public void deleteTest() {
 		User user = new User();
-		user.setId("8f8abe8c-1985-4423-b0e2-79cca0afc3f0");
+		user.setId("f6a5b686-187e-40f2-8e4f-d31e30172a39");
 		service.remove(user);
 		System.out.println("删除用户:" + user);
 		/** 也可使用以下接口删除数据 */
@@ -95,10 +99,10 @@ public class ApplicationTests {
 	public void batchDeleteTest() {
 		LinkedList<User> users = new LinkedList<>();
 		User user1 = new User();
-		user1.setId("1af38ad5-52ff-4488-92d7-884ff66831f7");
+		user1.setId("f9ad47c1-f723-436a-9e7f-36400723f469");
 		users.add(user1);
 		User user2 = new User();
-		user2.setId("375b11a3-9e6c-4efd-9c59-f9f74b799b44");
+		user2.setId("f8faaa6d-13e4-435b-892f-c234b4540d8b");
 		users.add(user2);
 		service.batchRemove(users);
 		/** 也可使用以下接口删除数据 */
@@ -120,6 +124,19 @@ public class ApplicationTests {
 		for (User user : users) {
 			System.out.println(user);
 		}
+	}
+	
+	/** 查询数量测试 */
+	@Test
+	public void selectCountTest() {
+		UserQuery query = new UserQuery();
+		/** 查询name是张三的用户 */
+		StringParam nameParam = new StringParam();
+		nameParam.setValue("张三");
+		/** 可以设置Operator指定where条件的操作符=，!=,like等其它操作 */
+		nameParam.setOperator(Operator.like);
+		query.setName(nameParam);
+		System.out.println("数量"+service.selectCount(query));
 	}
 
 	/** 使用setMultipart进行in查询 */
