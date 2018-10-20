@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.linuxprobe.crud.core.query.BaseQuery.JoinType;
 import org.linuxprobe.crud.core.query.BaseQuery.Limit;
+import org.linuxprobe.crud.core.query.param.QueryParam.Condition;
 import org.linuxprobe.crud.core.query.param.QueryParam.Operator;
 import org.linuxprobe.crud.core.query.param.impl.NumberParam;
 import org.linuxprobe.crud.core.query.param.impl.StringParam;
+import org.linuxprobe.crud.core.sql.generator.SqlGenerator;
+import org.linuxprobe.crud.core.sql.generator.SqlGenerator.DataBaseType;
 import org.linuxprobe.crud.service.UniversalService;
 import org.linuxprobe.demo.model.Org;
 import org.linuxprobe.demo.model.User;
@@ -23,6 +27,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTests {
+	{
+		SqlGenerator.setDataBaseType(DataBaseType.Mysql);
+	}
 	@Autowired
 	private UniversalService service;
 
@@ -125,7 +132,7 @@ public class ApplicationTests {
 			System.out.println(user);
 		}
 	}
-	
+
 	/** 查询数量测试 */
 	@Test
 	public void selectCountTest() {
@@ -136,7 +143,7 @@ public class ApplicationTests {
 		/** 可以设置Operator指定where条件的操作符=，!=,like等其它操作 */
 		nameParam.setOperator(Operator.like);
 		query.setName(nameParam);
-		System.out.println("数量"+service.selectCount(query));
+		System.out.println("数量" + service.selectCount(query));
 	}
 
 	/** 使用setMultipart进行in查询 */
@@ -170,9 +177,9 @@ public class ApplicationTests {
 		ageParam.setUpperLimit(20);
 		query.setAge(ageParam);
 		/** 排序设置 */
-		query.setOrder("age desc,name");
+		query.setOrder("age DESC,name");
 		/** 分页设置 */
-		query.setLimit(new Limit(1, 5));
+		query.setLimit(new Limit(2, 10));
 		List<User> users = service.universalSelect(query, User.class);
 		for (User user : users) {
 			System.out.println(user);
@@ -185,7 +192,9 @@ public class ApplicationTests {
 	@Test
 	public void oneToOneselectTest() {
 		UserQuery query = new UserQuery();
+		query.setName(new StringParam(Condition.or, Operator.like, "张三"));
 		OrgQuery orgQuery = new OrgQuery();
+		orgQuery.setJoinType(JoinType.CrossJoin);
 		orgQuery.setName(new StringParam("综合部"));
 		query.setOrg(orgQuery);
 		List<User> users = service.universalSelect(query, User.class);
