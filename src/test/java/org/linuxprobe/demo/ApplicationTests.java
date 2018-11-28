@@ -1,5 +1,6 @@
 package org.linuxprobe.demo;
 
+import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -234,6 +235,19 @@ public class ApplicationTests {
 				"select distinct o.* from org o left join user u on o.id = u.org_id order by o.id", Org.class);
 		for (Org temp : result) {
 			System.out.println(temp.toString());
+		}
+	}
+	
+	/** sql查询 */
+	@Test
+	public void test() {
+		UserQuery query = new UserQuery();
+		query.setLimit(null);
+		List<User> users = this.service.universalSelect(query, User.class);
+		for(User user:users){
+			String uuid = user.getId().replaceAll("-", "");
+			ByteBuffer buffer = ByteBuffer.wrap(uuid.getBytes(),0,uuid.length());
+			System.out.println(buffer.getShort());
 		}
 	}
 }
