@@ -2,6 +2,7 @@ package org.linuxprobe.demo.model;
 
 import java.util.Date;
 import org.linuxprobe.crud.core.annoatation.Column;
+import org.linuxprobe.crud.core.annoatation.Entity;
 import org.linuxprobe.crud.core.annoatation.Column.EnumHandler;
 import org.linuxprobe.crud.core.annoatation.Column.LengthHandler;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey;
@@ -15,6 +16,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Entity
 public class User {
 	@PrimaryKey
 	private String id;

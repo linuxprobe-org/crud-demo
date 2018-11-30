@@ -1,5 +1,6 @@
 package org.linuxprobe.demo.model;
 
+import org.linuxprobe.crud.core.annoatation.Entity;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey;
 import org.linuxprobe.crud.core.annoatation.Table;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Entity
 public class OtaUpdate {
 	@PrimaryKey
 	private String id;

@@ -2,61 +2,42 @@ package org.linuxprobe.demo;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Date;
+import java.util.List;
 import org.apache.ibatis.io.Resources;
-import org.linuxprobe.crud.core.sql.generator.SqlGenerator;
-import org.linuxprobe.crud.core.sql.generator.SqlGenerator.DataBaseType;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSession;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSessionFactory;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSessionFactoryBuilder;
 import org.linuxprobe.demo.model.User;
-import org.linuxprobe.demo.model.User.Type;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.linuxprobe.demo.query.UserQuery;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-public class MybatisTest extends TestCase {
-	/**
-	 * Create the test case
-	 *
-	 * @param testName
-	 *            name of the test case
-	 */
-	public MybatisTest(String testName) {
-		super(testName);
-	}
-
-	/**
-	 * @return the suite of tests being tested
-	 */
-	public static Test suite() {
-		return new TestSuite(MybatisTest.class);
-	}
-
-	/**
-	 * Rigourous Test :-)
-	 */
-	public void testApp() {
-		SqlGenerator.setDataBaseType(DataBaseType.Mysql);
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class MybatisTest {
+	UniversalCrudSqlSessionFactory sqlSessionFactory = null;
+	UniversalCrudSqlSession sqlSession = null;
+	{
 		String resource = "mybatis-config.xml";
 		Reader reader = null;
 		try {
 			reader = Resources.getResourceAsReader(resource);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		UniversalCrudSqlSessionFactoryBuilder sqlSessionFactoryBuilder = new UniversalCrudSqlSessionFactoryBuilder();
-		UniversalCrudSqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(reader);
-		UniversalCrudSqlSession sqlSession = sqlSessionFactory.openSession();
-		User user = new User();
-		user.setAge(12);
-		user.setCreateTime(new Date());
-		user.setEnable(true);
-		user.setName("sdf");
-		user.setType(Type.Student);
-		user.setOrgId("2");
-		sqlSession.insert(user);
-		assertTrue(true);
+		sqlSessionFactory = sqlSessionFactoryBuilder.build(reader);
+		sqlSession = sqlSessionFactory.openSession();
+	}
+
+	@Test
+	public void selectTest() {
+		UserQuery userQuery = new UserQuery();
+		List<User> users = this.sqlSession.universalSelect(userQuery, User.class);
+		for (User user : users) {
+			System.out.println(user);
+		}
 	}
 }
