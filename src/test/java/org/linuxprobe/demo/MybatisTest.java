@@ -2,10 +2,13 @@ package org.linuxprobe.demo;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
+import java.util.Set;
 import org.apache.ibatis.io.Resources;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,7 +53,8 @@ public class MybatisTest {
 		Book book = new Book();
 		book.setName("f234");
 		this.sqlSession.insert(book);
-		System.out.println("当前id:" + book.getId());
+		System.out.println("当前id:" + book.getIds());
+		sqlSession.commit();
 	}
 
 	@Test
@@ -60,12 +64,62 @@ public class MybatisTest {
 		for (int i = 0; i < 10; i++) {
 			Book book = new Book();
 			book.setName("f" + rand.nextInt());
+			book.setIds(rand.nextLong());
 			books.add(book);
 		}
-
 		this.sqlSession.batchInsert(books);
 		for (int i = 0; i < 10; i++) {
 			System.out.println("当前id:" + books.get(i));
 		}
+		sqlSession.commit();
+	}
+
+	@Test
+	public void deleteTest() {
+		this.sqlSession.deleteByPrimaryKey(22, Book.class);
+		sqlSession.commit();
+	}
+
+	@Test
+	public void batchDeleteTest() {
+		Set<Serializable> ids = new HashSet<>();
+		ids.add(21);
+		ids.add(24);
+		this.sqlSession.batchDeleteByPrimaryKey(ids, Book.class);
+		sqlSession.commit();
+	}
+
+	@Test
+	public void deleteObjectTest() {
+		Book book = new Book();
+		book.setIds(25L);
+		this.sqlSession.delete(book);
+		sqlSession.commit();
+	}
+
+	@Test
+	public void batchDeleteObjectTest() {
+		Set<Book> books = new HashSet<>();
+		Book book = new Book();
+		book.setIds(25L);
+		Book book2 = new Book();
+		book2.setIds(26L);
+		books.add(book2);
+		books.add(book);
+		this.sqlSession.batchDelete(books);
+		sqlSession.commit();
+	}
+	
+	/** 保存测试 */
+	@Test
+	public void saveTest() {
+		User user = new User();
+		user.setAge(11);
+		user.setEnable(true);
+		user.setName("张三");
+		user.setCreateTime(new Date());
+		sqlSession.insert(user);
+		System.out.println("新增用户:" + user);
+		sqlSession.commit();
 	}
 }

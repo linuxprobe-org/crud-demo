@@ -1,5 +1,6 @@
 package org.linuxprobe.demo.model;
 
+import org.linuxprobe.crud.core.annoatation.Column;
 import org.linuxprobe.crud.core.annoatation.Entity;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey.Strategy;
@@ -13,6 +14,7 @@ import lombok.ToString;
 @ToString
 public class Book {
 	@PrimaryKey(Strategy.NATIVE)
-	private Long id;
+	@Column("id")
+	private Long ids;
 	private String name;
 }
