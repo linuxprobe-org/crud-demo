@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
 import org.apache.ibatis.io.Resources;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -182,7 +183,9 @@ public class MybatisTest {
 		}
 	}
 
-	/** 使用setLowerLimit和setUpperLimit进行between查询1到20岁的记录，并根据age倒排序,name正排序，分页取第一页前5条 */
+	/**
+	 * 使用setLowerLimit和setUpperLimit进行between查询1到20岁的记录，并根据age倒排序,name正排序，分页取第一页前5条
+	 */
 	@Test
 	public void betweenSelectTest() {
 		UserQuery query = new UserQuery();
@@ -233,7 +236,7 @@ public class MybatisTest {
 			System.out.println(user);
 		}
 	}
-	
+
 	/** sql查询 */
 	@Test
 	public void sqlSelectTest() {
@@ -253,17 +256,44 @@ public class MybatisTest {
 			System.out.println(temp.toString());
 		}
 	}
-	
+
 	/** sql查询 */
 	@Test
 	public void test() {
 		UserQuery query = new UserQuery();
 		query.setLimit(null);
 		List<User> users = sqlSession.universalSelect(query, User.class);
-		for(User user:users){
+		for (User user : users) {
 			String uuid = user.getId().replaceAll("-", "");
-			ByteBuffer buffer = ByteBuffer.wrap(uuid.getBytes(),0,uuid.length());
+			ByteBuffer buffer = ByteBuffer.wrap(uuid.getBytes(), 0, uuid.length());
 			System.out.println(buffer.getShort());
+		}
+	}
+
+	/** 字段全更新测试 */
+	@Test
+	public void globalUpdateTest() {
+		User user = new User();
+		user.setId("1eb04a92-262d-40b1-8daf-d70fc82cccaa");
+		user.setAge(20);
+		user.setEnable(true);
+		user.setName("李四");
+		user.setCreateTime(new Date());
+		sqlSession.globalUpdate(user);
+		System.out.println("更新用户:" + user);
+	}
+
+	/** 字段选择更新测试 */
+	@Test
+	public void localUpdateTest() {
+		try {
+			User user = new User();
+			user.setId("e4f8e18b-a473-43f9-a544-890de7f3b424");
+			user.setAge(50);
+			sqlSession.localUpdate(user);
+			System.out.println("更新用户:" + user);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

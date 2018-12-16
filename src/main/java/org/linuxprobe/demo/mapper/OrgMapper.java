@@ -1,8 +1,13 @@
 package org.linuxprobe.demo.mapper;
 
-import org.linuxprobe.crud.mapper.BaseMapper;
+import java.util.List;
+
 import org.linuxprobe.demo.model.Org;
+import org.linuxprobe.demo.query.OrgQuery;
 
-public interface OrgMapper extends BaseMapper<Org>{
+public interface OrgMapper {
+	List<Org> select(OrgQuery param);
 
+	/** 根据主键查询 */
+	Org selectByPrimaryKey(String id);
 }
