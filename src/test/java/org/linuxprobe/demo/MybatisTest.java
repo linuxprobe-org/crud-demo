@@ -82,58 +82,62 @@ public class MybatisTest {
 
 	@Test
 	public void insertTest() {
-		Book newbook = new Book();
-		newbook.setName("f234");
-		this.sqlSession.insert(newbook);
-		System.out.println("当前id:" + newbook.getIds());
-		sqlSession.commit();
+		try {
+			Book newbook = new Book();
+			newbook.setName("f234");
+			this.sqlSession.insert(newbook);
+			System.out.println("当前id:" + newbook.getIds());
+			sqlSession.commit();
 
-		List<Book> books = new LinkedList<>();
-		Random rand = new Random();
-		for (int i = 0; i < 10; i++) {
-			Book book = new Book();
-			book.setName("f" + rand.nextInt());
-			book.setIds(rand.nextLong());
-			books.add(book);
-		}
-		this.sqlSession.batchInsert(books);
-		for (int i = 0; i < 10; i++) {
-			System.out.println("当前id:" + books.get(i));
-		}
-		sqlSession.commit();
+			List<Book> books = new LinkedList<>();
+			Random rand = new Random();
+			for (int i = 0; i < 10; i++) {
+				Book book = new Book();
+				book.setName("f" + rand.nextInt());
+				book.setIds(rand.nextLong());
+				books.add(book);
+			}
+			this.sqlSession.batchInsert(books);
+			for (int i = 0; i < 10; i++) {
+				System.out.println("当前id:" + books.get(i));
+			}
+			sqlSession.commit();
 
-		User user = new User();
-		user.setName("张三");
-		user.setAge(11);
-		user.setWeigth(50.01f);
-		user.setHeight(165.0);
-		user.setIdCard(53212819930708L);
-		user.setEnable(true);
-		user.setCreateTime(new Date());
-		user.setOrgId("2");
-		user.setType(Type.Student);
-		sqlSession.insert(user);
-		System.out.println("新增用户:" + user);
+			User user = new User();
+			user.setName("张三");
+			user.setAge(11);
+			user.setWeigth(50.01f);
+			user.setHeight(165.0);
+			user.setIdCard(53212819930708L);
+			user.setEnable(true);
+			user.setCreateTime(new Date());
+			user.setOrgId("2");
+			user.setType(Type.Student);
+			sqlSession.insert(user);
+			System.out.println("新增用户:" + user);
 
-		List<User> users = new LinkedList<>();
-		for (int i = 0; i < 10; i++) {
-			User user1 = new User();
-			user1.setName("张三");
-			user1.setAge(11);
-			user1.setWeigth(50.01f);
-			user1.setHeight(165.0);
-			user1.setIdCard(53212819930708L);
-			user1.setEnable(true);
-			user1.setCreateTime(new Date());
-			user1.setOrgId("2");
-			user1.setType(Type.Student);
-			users.add(user1);
+			List<User> users = new LinkedList<>();
+			for (int i = 0; i < 10; i++) {
+				User user1 = new User();
+				user1.setName("张三");
+				user1.setAge(11);
+				user1.setWeigth(50.01f);
+				user1.setHeight(165.0);
+				user1.setIdCard(53212819930708L);
+				user1.setEnable(true);
+				user1.setCreateTime(new Date());
+				user1.setOrgId("2");
+				user1.setType(Type.Student);
+				users.add(user1);
+			}
+			sqlSession.batchInsert(users);
+			for (int i = 0; i < 10; i++) {
+				System.out.println("新增用户:" + users.get(i));
+			}
+			sqlSession.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		sqlSession.batchInsert(users);
-		for (int i = 0; i < 10; i++) {
-			System.out.println("新增用户:" + users.get(i));
-		}
-		sqlSession.commit();
 	}
 
 	@Test

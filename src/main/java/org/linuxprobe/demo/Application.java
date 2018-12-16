@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @MapperScan({ "org.linuxprobe.**.mapper" })
-@ComponentScan("org.linuxprobe.**")
+@ComponentScan("org.linuxprobe.demo**")
 public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
