@@ -5,7 +5,6 @@
 <configuration>
 	<!-- 引入外部资源文件 -->
 	<!-- <properties resource="jdbc.properties"></properties> -->
-	<!-- 设置驼峰匹配 -->
 	<settings>
 		<!--开启驼峰命名 -->
 		<setting name="mapUnderscoreToCamelCase" value="true" />
@@ -14,6 +13,7 @@
 		<setting name="aggressiveLazyLoading" value="false"></setting>
 		<!--开启二级缓存 -->
 		<setting name="cacheEnabled" value="true"></setting>
+		<!-- 指定mybatis-universal-crud-simple的扫描路径，要用于扫描实体信息和搜索类信息，多个包使用","隔开 -->
 		<setting name="universalCrudScan" value="org.linuxprobe.demo.model"></setting>
 	</settings>
 	<!-- typeAliases:起别名的标签 typeAlias:为某个java类型起别名 type:指定要起别名的全类名，默认别名就是类小写，(但是其实他是不区分大小写的，也就是说你全部大写也没问题) 
