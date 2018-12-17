@@ -142,16 +142,20 @@ public class MybatisTest {
 
 	@Test
 	public void selectTest() {
-		UserQuery query = new UserQuery();
-		/** 查询name是张三的用户 */
-		StringParam nameParam = new StringParam();
-		nameParam.setValue("张三");
-		/** 可以设置Operator指定where条件的操作符=，!=,like等其它操作 */
-		nameParam.setOperator(Operator.like);
-		query.setName(nameParam);
-		List<User> users = sqlSession.universalSelect(query, User.class);
-		for (User user : users) {
-			System.out.println(user);
+		try {
+			UserQuery query = new UserQuery();
+			/** 查询name是张三的用户 */
+			StringParam nameParam = new StringParam();
+			nameParam.setValue("张三");
+			/** 可以设置Operator指定where条件的操作符=，!=,like等其它操作 */
+			nameParam.setOperator(Operator.like);
+			query.setName(nameParam);
+			List<User> users = sqlSession.universalSelect(query, User.class);
+			for (User user : users) {
+				System.out.println(user);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -221,6 +225,9 @@ public class MybatisTest {
 		orgQuery.setJoinType(JoinType.CrossJoin);
 		orgQuery.setName(new StringParam("综合部"));
 		query.setOrg(orgQuery);
+		RoleQuery roleQuery = new RoleQuery();
+		roleQuery.setName(new StringParam("管理员"));
+		// query.setRole(roleQuery);
 		List<User> users = sqlSession.universalSelect(query, User.class);
 		for (User user : users) {
 			System.out.println(user);

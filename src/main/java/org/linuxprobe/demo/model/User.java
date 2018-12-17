@@ -1,13 +1,16 @@
 package org.linuxprobe.demo.model;
 
 import java.util.Date;
+
 import org.linuxprobe.crud.core.annoatation.Column;
-import org.linuxprobe.crud.core.annoatation.Entity;
 import org.linuxprobe.crud.core.annoatation.Column.EnumHandler;
 import org.linuxprobe.crud.core.annoatation.Column.LengthHandler;
+import org.linuxprobe.crud.core.annoatation.Entity;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey.Strategy;
+import org.linuxprobe.crud.core.annoatation.Table;
 import org.linuxprobe.crud.core.annoatation.Transient;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,7 +18,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Entity("user")
+@Entity
+@Table("user")
 public class User {
 	@PrimaryKey(Strategy.UUID)
 	private String id;
