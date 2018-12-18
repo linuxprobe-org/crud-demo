@@ -17,10 +17,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linuxprobe.crud.core.query.BaseQuery.JoinType;
 import org.linuxprobe.crud.core.query.BaseQuery.Limit;
-import org.linuxprobe.crud.core.query.param.QueryParam.Condition;
-import org.linuxprobe.crud.core.query.param.QueryParam.Operator;
+import org.linuxprobe.crud.core.query.param.BaseParam.Condition;
+import org.linuxprobe.crud.core.query.param.BaseParam.Operator;
+import org.linuxprobe.crud.core.query.param.impl.BooleanParam;
+import org.linuxprobe.crud.core.query.param.impl.DateParam;
 import org.linuxprobe.crud.core.query.param.impl.NumberParam;
 import org.linuxprobe.crud.core.query.param.impl.StringParam;
+import org.linuxprobe.crud.core.query.param.impl.StringParam.Fuzzt;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSession;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSessionFactory;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSessionFactoryBuilder;
@@ -144,6 +147,8 @@ public class MybatisTest {
 	public void selectTest() {
 		try {
 			UserQuery query = new UserQuery();
+			query.setEnable(new BooleanParam(true));
+			query.setCreateTime(new DateParam(Operator.isNotNull));
 			/** 查询name是张三的用户 */
 			StringParam nameParam = new StringParam();
 			nameParam.setValue("张三");
@@ -168,6 +173,7 @@ public class MybatisTest {
 		nameParam.setValue("张三");
 		/** 可以设置Operator指定where条件的操作符=，!=,like等其它操作 */
 		nameParam.setOperator(Operator.like);
+		nameParam.setFuzzt(Fuzzt.Left);
 		query.setName(nameParam);
 		System.out.println("数量" + sqlSession.selectCount(query));
 	}
@@ -181,9 +187,9 @@ public class MybatisTest {
 		List<String> names = new LinkedList<>();
 		names.add("张三1");
 		names.add("张三5");
-		nameParam.setMultipart(names);
+		nameParam.setMultiValues(names);
 		/** 指定操作符in */
-		nameParam.setOperator(Operator.in);
+		nameParam.setOperator(Operator.notIn);
 		query.setName(nameParam);
 		List<User> users = sqlSession.universalSelect(query, User.class);
 		for (User user : users) {
@@ -198,11 +204,11 @@ public class MybatisTest {
 	public void betweenSelectTest() {
 		UserQuery query = new UserQuery();
 		NumberParam ageParam = new NumberParam();
-		ageParam.setOperator(Operator.between);
+		ageParam.setOperator(Operator.notBetween);
 		/** 设置下限值 */
-		ageParam.setLowerLimit(1);
+		ageParam.setMinValue(1);
 		/** 设置上限值 */
-		ageParam.setUpperLimit(20);
+		ageParam.setMaxValue(20);
 		query.setAge(ageParam);
 		/** 排序设置 */
 		query.setOrder("age DESC,name");
