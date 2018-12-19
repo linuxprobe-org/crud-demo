@@ -144,6 +144,13 @@ public class MybatisTest {
 	}
 
 	@Test
+	public void idselect() {
+		User user = sqlSession.selectByPrimaryKey("18dab3a039974c5a8976d715e27d7a5e", User.class);
+		System.out.println(user.getOrg());
+		System.out.println(user.getOrg());
+	}
+
+	@Test
 	public void selectTest() {
 		try {
 			UserQuery query = new UserQuery();
@@ -155,7 +162,7 @@ public class MybatisTest {
 			/** 可以设置Operator指定where条件的操作符=，!=,like等其它操作 */
 			nameParam.setOperator(Operator.like);
 			query.setName(nameParam);
-			List<User> users = sqlSession.universalSelect(query, User.class);
+			List<User> users = sqlSession.universalSelect(query);
 			for (User user : users) {
 				System.out.println(user);
 			}
@@ -191,7 +198,7 @@ public class MybatisTest {
 		/** 指定操作符in */
 		nameParam.setOperator(Operator.notIn);
 		query.setName(nameParam);
-		List<User> users = sqlSession.universalSelect(query, User.class);
+		List<User> users = sqlSession.universalSelect(query);
 		for (User user : users) {
 			System.out.println(user);
 		}
@@ -214,7 +221,7 @@ public class MybatisTest {
 		query.setOrder("age DESC,name");
 		/** 分页设置 */
 		query.setLimit(new Limit(2, 10));
-		List<User> users = sqlSession.universalSelect(query, User.class);
+		List<User> users = sqlSession.universalSelect(query);
 		for (User user : users) {
 			System.out.println(user);
 		}
@@ -234,7 +241,7 @@ public class MybatisTest {
 		RoleQuery roleQuery = new RoleQuery();
 		roleQuery.setName(new StringParam("管理员"));
 		// query.setRole(roleQuery);
-		List<User> users = sqlSession.universalSelect(query, User.class);
+		List<User> users = sqlSession.universalSelect(query);
 		for (User user : users) {
 			System.out.println(user);
 		}
@@ -248,7 +255,7 @@ public class MybatisTest {
 		roleQuery.setName(new StringParam("管理员"));
 		/** 查询用户管理员角色的人 */
 		query.setRole(roleQuery);
-		List<User> users = sqlSession.universalSelect(query, User.class);
+		List<User> users = sqlSession.universalSelect(query);
 		for (User user : users) {
 			System.out.println(user);
 		}
@@ -279,7 +286,7 @@ public class MybatisTest {
 	public void test() {
 		UserQuery query = new UserQuery();
 		query.setLimit(null);
-		List<User> users = sqlSession.universalSelect(query, User.class);
+		List<User> users = sqlSession.universalSelect(query);
 		for (User user : users) {
 			String uuid = user.getId().replaceAll("-", "");
 			ByteBuffer buffer = ByteBuffer.wrap(uuid.getBytes(), 0, uuid.length());

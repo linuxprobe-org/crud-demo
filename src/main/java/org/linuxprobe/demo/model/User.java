@@ -6,6 +6,7 @@ import org.linuxprobe.crud.core.annoatation.Column;
 import org.linuxprobe.crud.core.annoatation.Column.EnumHandler;
 import org.linuxprobe.crud.core.annoatation.Column.LengthHandler;
 import org.linuxprobe.crud.core.annoatation.Entity;
+import org.linuxprobe.crud.core.annoatation.OneToOne;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey.Strategy;
 import org.linuxprobe.crud.core.annoatation.Table;
@@ -51,4 +52,7 @@ public class User {
 	public static enum Type {
 		Teacher, Student
 	}
+
+	@OneToOne("orgId")
+	private Org org;
 }
