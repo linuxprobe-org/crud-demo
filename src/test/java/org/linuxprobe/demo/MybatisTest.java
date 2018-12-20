@@ -149,6 +149,20 @@ public class MybatisTest {
 		System.out.println(user.getOrg());
 		System.out.println(user.getOrg());
 	}
+	
+	@Test
+	public void idselect2() {
+		User user = sqlSession.selectOneByColumn("name", "张三", User.class);
+		System.out.println(user.getOrg());
+		System.out.println(user.getOrg());
+	}
+	
+	@Test
+	public void idselect3() {
+		User user = sqlSession.selectOneByField("orgId", "2", User.class);
+		System.out.println(user.getOrg());
+		System.out.println(user.getOrg());
+	}
 
 	@Test
 	public void selectTest() {
@@ -303,7 +317,9 @@ public class MybatisTest {
 		user.setEnable(true);
 		user.setName("李四");
 		user.setCreateTime(new Date());
-		sqlSession.globalUpdate(user);
+		user.setOrgId("2");
+		user = sqlSession.globalUpdate(user);
+		System.out.println(user.getOrg());
 		System.out.println("更新用户:" + user);
 	}
 
@@ -314,7 +330,7 @@ public class MybatisTest {
 			User user = new User();
 			user.setId("e4f8e18b-a473-43f9-a544-890de7f3b424");
 			user.setAge(50);
-			sqlSession.localUpdate(user);
+			user = sqlSession.localUpdate(user);
 			System.out.println("更新用户:" + user);
 		} catch (Exception e) {
 			e.printStackTrace();

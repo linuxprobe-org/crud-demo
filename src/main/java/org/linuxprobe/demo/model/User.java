@@ -53,6 +53,6 @@ public class User {
 		Teacher, Student
 	}
 
-	@OneToOne("orgId")
+	@OneToOne("org_id")
 	private Org org;
 }
