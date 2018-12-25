@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.ibatis.io.Resources;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.linuxprobe.crud.core.content.UniversalCrudContent;
 import org.linuxprobe.crud.core.query.BaseQuery.JoinType;
 import org.linuxprobe.crud.core.query.BaseQuery.Limit;
 import org.linuxprobe.crud.core.query.param.BaseParam.Condition;
@@ -24,11 +25,14 @@ import org.linuxprobe.crud.core.query.param.impl.DateParam;
 import org.linuxprobe.crud.core.query.param.impl.NumberParam;
 import org.linuxprobe.crud.core.query.param.impl.StringParam;
 import org.linuxprobe.crud.core.query.param.impl.StringParam.Fuzzt;
+import org.linuxprobe.crud.core.sql.generator.InsertSqlGenerator;
+import org.linuxprobe.crud.core.sql.generator.UpdateSqlGenerator;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSession;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSessionFactory;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSessionFactoryBuilder;
 import org.linuxprobe.demo.model.Book;
 import org.linuxprobe.demo.model.Org;
+import org.linuxprobe.demo.model.Student;
 import org.linuxprobe.demo.model.User;
 import org.linuxprobe.demo.model.User.Type;
 import org.linuxprobe.demo.query.OrgQuery;
@@ -53,6 +57,16 @@ public class MybatisTest {
 		UniversalCrudSqlSessionFactoryBuilder sqlSessionFactoryBuilder = new UniversalCrudSqlSessionFactoryBuilder();
 		sqlSessionFactory = sqlSessionFactoryBuilder.build(reader);
 		sqlSession = sqlSessionFactory.openSession();
+	}
+
+	@Test
+	public void sqlTest() {
+		Student student = new Student();
+		InsertSqlGenerator insertSqlGenerator = UniversalCrudContent.getInsertSqlGenerator();
+		UpdateSqlGenerator updateSqlGenerator = UniversalCrudContent.getUpdateSqlGenerator();
+		System.out.println(insertSqlGenerator.toInsertSql(student));
+		System.out.println(updateSqlGenerator.toGlobalUpdateSql(student));
+		System.out.println(updateSqlGenerator.toLocalUpdateSql(student));
 	}
 
 	/** 删除测试 */
@@ -149,14 +163,14 @@ public class MybatisTest {
 		System.out.println(user.getOrg());
 		System.out.println(user.getOrg());
 	}
-	
+
 	@Test
 	public void idselect2() {
 		User user = sqlSession.selectOneByColumn("name", "张三", User.class);
 		System.out.println(user.getOrg());
 		System.out.println(user.getOrg());
 	}
-	
+
 	@Test
 	public void idselect3() {
 		User user = sqlSession.selectOneByField("orgId", "2", User.class);

@@ -3,8 +3,6 @@ package org.linuxprobe.demo.model;
 import java.util.Date;
 
 import org.linuxprobe.crud.core.annoatation.Column;
-import org.linuxprobe.crud.core.annoatation.Column.EnumHandler;
-import org.linuxprobe.crud.core.annoatation.Column.LengthHandler;
 import org.linuxprobe.crud.core.annoatation.Entity;
 import org.linuxprobe.crud.core.annoatation.OneToOne;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey;
@@ -25,7 +23,6 @@ public class User {
 	@PrimaryKey(Strategy.UUID)
 	private String id;
 	/** @Column指定长度，超过长度默认减去超过长度，可设置lengthHandler=LengthHandler.ThrowException抛出异常 */
-	@Column(length = 32, lengthHandler = LengthHandler.ThrowException)
 	private String name;
 	private Integer age;
 	private Float weigth;
@@ -42,7 +39,6 @@ public class User {
 	/** @Column(enumHandler=EnumHandler.Name)指定枚举存名称 */
 	/** @Column(enumHandler=EnumHandler.Ordinal)指定枚举存序列 */
 	/** enumHandler默认是序列 */
-	@Column(enumHandler = EnumHandler.Ordinal)
 	private Type type;
 
 	/** @Transient表示test字段不进行持久化 */
