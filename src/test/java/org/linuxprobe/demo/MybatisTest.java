@@ -12,10 +12,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import javax.sql.rowset.serial.SerialBlob;
+
 import org.apache.ibatis.io.Resources;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linuxprobe.crud.core.content.UniversalCrudContent;
 import org.linuxprobe.crud.core.query.BaseQuery.JoinType;
 import org.linuxprobe.crud.core.query.BaseQuery.Limit;
 import org.linuxprobe.crud.core.query.param.BaseParam.Condition;
@@ -25,14 +26,12 @@ import org.linuxprobe.crud.core.query.param.impl.DateParam;
 import org.linuxprobe.crud.core.query.param.impl.NumberParam;
 import org.linuxprobe.crud.core.query.param.impl.StringParam;
 import org.linuxprobe.crud.core.query.param.impl.StringParam.Fuzzt;
-import org.linuxprobe.crud.core.sql.generator.InsertSqlGenerator;
-import org.linuxprobe.crud.core.sql.generator.UpdateSqlGenerator;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSession;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSessionFactory;
 import org.linuxprobe.crud.mybatis.session.UniversalCrudSqlSessionFactoryBuilder;
+import org.linuxprobe.demo.model.BetaTest;
 import org.linuxprobe.demo.model.Book;
 import org.linuxprobe.demo.model.Org;
-import org.linuxprobe.demo.model.Student;
 import org.linuxprobe.demo.model.User;
 import org.linuxprobe.demo.model.User.Type;
 import org.linuxprobe.demo.query.OrgQuery;
@@ -61,12 +60,28 @@ public class MybatisTest {
 
 	@Test
 	public void sqlTest() {
-		Student student = new Student();
-		InsertSqlGenerator insertSqlGenerator = UniversalCrudContent.getInsertSqlGenerator();
-		UpdateSqlGenerator updateSqlGenerator = UniversalCrudContent.getUpdateSqlGenerator();
-		System.out.println(insertSqlGenerator.toInsertSql(student));
-		System.out.println(updateSqlGenerator.toGlobalUpdateSql(student));
-		System.out.println(updateSqlGenerator.toLocalUpdateSql(student));
+
+		try {
+			BetaTest record = new BetaTest();
+			record.setId(1L);
+			record.setCreateDate(new Date());
+			record.setAge(11);
+			record.setBin(new SerialBlob("sdfasdf".getBytes()));
+			record.setIsenable(true);
+			record.setType(org.linuxprobe.demo.model.BetaTest.Type.A);
+			// sqlSession.insert(record);
+			// sqlSession.commit();
+			record = sqlSession.selectByPrimaryKey(1, BetaTest.class);
+			System.out.println(record);
+			record.setIsenable(false);
+			sqlSession.globalUpdate(record);
+			System.out.println(record);
+			record.setId(null);
+			sqlSession.deleteByPrimaryKey(record.getId(), BetaTest.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/** 删除测试 */

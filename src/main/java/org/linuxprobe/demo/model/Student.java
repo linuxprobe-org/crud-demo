@@ -18,13 +18,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Student {
-	@Column(notNull = false, updateIgnore = true)
+
 	@DateHandler(customerType = DateCustomerType.Timestamp)
 	private Date createDate = new Date();
 	@PrimaryKey(Strategy.UUID)
 	private String id = "sdf";
-	@Column(value = "age_s", notNull = true)
+	@Column(value = "age_s")
 	private int age;
-	@Column(notNull = true)
 	private Integer Iage = 1;
 }

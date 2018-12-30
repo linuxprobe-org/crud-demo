@@ -9,6 +9,7 @@ import org.linuxprobe.crud.core.annoatation.PrimaryKey;
 import org.linuxprobe.crud.core.annoatation.PrimaryKey.Strategy;
 import org.linuxprobe.crud.core.annoatation.Table;
 import org.linuxprobe.crud.core.annoatation.Transient;
+import org.linuxprobe.crud.core.annoatation.UpdateIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +31,7 @@ public class User {
 	private Long idCard;
 	private Boolean enable;
 	/** @Column updateIgnore=true表示进行更新操作时，这个字段不更新 */
-	@Column(updateIgnore = true)
+	@UpdateIgnore
 	private Date createTime;
 	/** @Column指定数据库字段 */
 	@Column("org_id")
